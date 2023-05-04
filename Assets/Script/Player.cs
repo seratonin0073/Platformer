@@ -1,36 +1,87 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Entity
 {
+    [SerializeField] private Transform GroundChercker;
     [SerializeField] private float speed = 3f;
     [SerializeField] private float jumpForce = 3f;
-    private SpriteRenderer sprite;
-    private Rigidbody2D rb;
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private int lives = 3; 
+
+    private SpriteRenderer Sprite;
+    private Rigidbody2D RB;
+    private Animator AnimController;
+    private bool isGround = false;
+    
+    public static Player Instance { get; set; }
+    private States State
     {
-        sprite = GetComponent<SpriteRenderer>();
-        rb = GetComponent<Rigidbody2D>();
+        get { return (States)AnimController.GetInteger("State"); }
+        set { AnimController.SetInteger("State", (int)value); }
     }
 
-    // Update is called once per frame
+    void Awake()
+    {
+        Sprite = GetComponent<SpriteRenderer>();
+        RB = GetComponent<Rigidbody2D>();
+        AnimController = GetComponent<Animator>();
+        Instance = this;
+    }
+
+    private void FixedUpdate()
+    {
+        CheckGround();
+    }
+
     void Update()
     {
-        Run();
-        if (Input.GetButton("Jump"))
+        
+        if(Input.GetButton("Horizontal"))
+            Run();
+        else
+        {
+            if (isGround) State = States.Idle;
+        }
+            
+        if (Input.GetButton("Jump") && isGround)
             Jump();
     }
 
     private void Run()
     {
-        Vector3 dir = transform.right * Input.GetAxis("Horizontal") * speed;
-        sprite.flipX = dir.x < 0f;
-        transform.position = Vector3.MoveTowards(transform.position, dir, Time.deltaTime);
+        if (isGround) State = States.Run;
+        float dir = Input.GetAxis("Horizontal") * speed;
+        Sprite.flipX = dir < 0f;
+        RB.velocity = new Vector2(dir, RB.velocity.y);
     }
     private void Jump()
     {
-        rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
+        RB.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
+        State = States.Jump;
     }
+
+    private void CheckGround()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(GroundChercker.position, 0.2f);
+        isGround = colliders.Length > 1;
+
+        if (!isGround && RB.velocity.y < 0) State = States.Fall; 
+    }
+
+    public override void GetDamage()
+    {
+        lives -= 1;
+        Debug.Log("Lives: " + lives);
+        if (lives < 1)
+            Die();
+    }
+
+}
+
+
+enum States
+{
+    Idle,
+    Run,
+    Jump,
+    Fall
 }
