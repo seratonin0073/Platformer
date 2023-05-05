@@ -56,14 +56,14 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Script\Player.cs" />
-    <Compile Include="Assets\Script\Camera.cs" />
-    <Compile Include="Assets\Script\Obstacle.cs" />
     <Compile Include="Assets\Script\Entity.cs" />
-    <Compile Include="Assets\Script\Worm.cs" />
+    <Compile Include="Assets\Script\Player.cs" />
+    <Compile Include="Assets\Script\Ratcher.cs" />
+    <Compile Include="Assets\Script\Camera.cs" />
     <Compile Include="Assets\Script\WalkingMonster.cs" />
   </ItemGroup>
   <ItemGroup>
+     <None Include="Assets\Image\Enemy\Readme.txt" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.2.0f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

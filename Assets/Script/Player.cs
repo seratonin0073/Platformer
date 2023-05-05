@@ -51,7 +51,8 @@ public class Player : Entity
         if (isGround) State = States.Run;
         float dir = Input.GetAxis("Horizontal") * speed;
         Sprite.flipX = dir < 0f;
-        RB.velocity = new Vector2(dir, RB.velocity.y);
+        //RB.velocity = new Vector2(dir, RB.velocity.y);
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.right * dir, Time.deltaTime * speed);
     }
     private void Jump()
     {
@@ -61,7 +62,7 @@ public class Player : Entity
 
     private void CheckGround()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(GroundChercker.position, 0.2f);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(GroundChercker.position, 0.1f);
         isGround = colliders.Length > 1;
 
         if (!isGround && RB.velocity.y < 0) State = States.Fall; 
