@@ -1,7 +1,9 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Player : Entity
 {
+
     [SerializeField] private Transform GroundChercker;
     [SerializeField] private float speed = 3f;
     [SerializeField] private float jumpForce = 3f;
@@ -11,6 +13,8 @@ public class Player : Entity
     private Rigidbody2D RB;
     private Animator AnimController;
     private bool isGround = false;
+    private LayerMask GroundMask;
+
     
     public static Player Instance { get; set; }
     private States State
@@ -21,6 +25,7 @@ public class Player : Entity
 
     void Awake()
     {
+        GroundMask = LayerMask.GetMask("Ground");
         Sprite = GetComponent<SpriteRenderer>();
         RB = GetComponent<Rigidbody2D>();
         AnimController = GetComponent<Animator>();
@@ -44,6 +49,8 @@ public class Player : Entity
             
         if (Input.GetButton("Jump") && isGround)
             Jump();
+
+        
     }
 
     private void Run()
@@ -62,10 +69,10 @@ public class Player : Entity
 
     private void CheckGround()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(GroundChercker.position, 0.1f);
-        isGround = colliders.Length > 1;
-
-        if (!isGround && RB.velocity.y < 0) State = States.Fall; 
+        //Collider2D[] colliders = Physics2D.OverlapCircleAll(GroundChercker.position, 0.05f);
+        //isGround = colliders.Length > 1;
+        //isGround = Physics2D.OverlapArea(top_left.position, bottom_right.position, ground_layers);
+        if (!isGround && RB.velocity.y < 0) State = States.Fall;
     }
 
     public override void GetDamage()
@@ -75,6 +82,8 @@ public class Player : Entity
         if (lives < 1)
             Die();
     }
+
+    
 
 }
 

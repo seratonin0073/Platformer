@@ -16,7 +16,7 @@ public class Camera : MonoBehaviour
     {
         pos = Target.position;
         pos.z = -10f;
-        pos.y += 1f;
+        //pos.y += 1f;
         transform.position = Vector3.Lerp(transform.position, pos, Time.deltaTime*2);
     }
 }

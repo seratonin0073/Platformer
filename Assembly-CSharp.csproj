@@ -61,6 +61,7 @@
     <Compile Include="Assets\Script\Ratcher.cs" />
     <Compile Include="Assets\Script\Camera.cs" />
     <Compile Include="Assets\Script\WalkingMonster.cs" />
+    <Compile Include="Assets\Script\TilemapAnimation.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Image\Enemy\Readme.txt" />
