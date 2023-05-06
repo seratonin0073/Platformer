@@ -43,7 +43,7 @@ public class Player : Entity
             if (isGround) State = States.Idle;
         }
             
-        if (Input.GetButton("Jump") && isGround)
+        if (Input.GetButtonDown("Jump") && isGround)
             Jump();
 
         

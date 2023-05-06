@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 9106636166310500836}
   - component: {fileID: 9106636166310500837}
   - component: {fileID: 9106636166310500833}
-  - component: {fileID: 9106636166310500835}
   - component: {fileID: 9106636166310500834}
+  - component: {fileID: 9106636166310500835}
   - component: {fileID: 9106636166310500838}
   m_Layer: 0
   m_Name: Ratcher
@@ -112,21 +112,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.73046017, y: 1}
   m_EdgeRadius: 0
---- !u!114 &9106636166310500835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9106636166310500839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d15a8e9293203d48951e2bd3442672a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lives: 2
-  fireRate: 1
-  damage: 1
 --- !u!95 &9106636166310500834
 Animator:
   serializedVersion: 3
@@ -146,6 +131,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &9106636166310500835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9106636166310500839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d15a8e9293203d48951e2bd3442672a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lives: 2
+  fireRate: 1
+  damage: 1
 --- !u!50 &9106636166310500838
 Rigidbody2D:
   serializedVersion: 4
