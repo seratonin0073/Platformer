@@ -3,8 +3,6 @@ using System.Collections.Generic;
 
 public class Player : Entity
 {
-
-    [SerializeField] private Transform GroundChercker;
     [SerializeField] private float speed = 3f;
     [SerializeField] private float jumpForce = 3f;
     [SerializeField] private int lives = 3; 
@@ -13,7 +11,6 @@ public class Player : Entity
     private Rigidbody2D RB;
     private Animator AnimController;
     private bool isGround = false;
-    private LayerMask GroundMask;
 
     
     public static Player Instance { get; set; }
@@ -25,10 +22,9 @@ public class Player : Entity
 
     void Awake()
     {
-        GroundMask = LayerMask.GetMask("Ground");
-        Sprite = GetComponent<SpriteRenderer>();
+        Sprite = GetComponentInChildren<SpriteRenderer>();
         RB = GetComponent<Rigidbody2D>();
-        AnimController = GetComponent<Animator>();
+        AnimController = GetComponentInChildren<Animator>();
         Instance = this;
     }
 
@@ -56,21 +52,21 @@ public class Player : Entity
     private void Run()
     {
         if (isGround) State = States.Run;
-        float dir = Input.GetAxis("Horizontal") * speed;
-        Sprite.flipX = dir < 0f;
-        //RB.velocity = new Vector2(dir, RB.velocity.y);
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + Vector3.right * dir, Time.deltaTime * speed);
+        Vector3 dir = transform.right * Input.GetAxis("Horizontal");
+        Sprite.flipX = dir.x < 0f;
+        transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, Time.deltaTime * speed);
     }
     private void Jump()
     {
         RB.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
         State = States.Jump;
+        isGround = false;
     }
 
     private void CheckGround()
     {
-        //Collider2D[] colliders = Physics2D.OverlapCircleAll(GroundChercker.position, 0.05f);
-        //isGround = colliders.Length > 1;
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.3f);
+        isGround = colliders.Length > 1;
         //isGround = Physics2D.OverlapArea(top_left.position, bottom_right.position, ground_layers);
         if (!isGround && RB.velocity.y < 0) State = States.Fall;
     }

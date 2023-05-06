@@ -10,7 +10,7 @@ public class WalkingMonster : Entity
     private void Start()
     {
         dir = transform.right;
-        Sprite = GetComponent<SpriteRenderer>();
+        Sprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void Update()
@@ -25,8 +25,8 @@ public class WalkingMonster : Entity
 
         if (colliders.Length > 0) dir *= -1;
         transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, Time.deltaTime * speed);
-        //Sprite.flipX = dir.x < 0f;
-        transform.localScale = transform.right * dir.x * transform.localScale.x + transform.up * transform.localScale.y;
+        Sprite.flipX = dir.x < 0f;
+        //transform.localScale = transform.right * dir.x * transform.localScale.x + transform.up * transform.localScale.y;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
