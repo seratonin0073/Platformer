@@ -3,35 +3,40 @@ using UnityEngine;
 public class WalkingMonster : Entity
 {
     [SerializeField] private float speed = 3f;
+    [SerializeField] private float patrolRadius = 5f;
+    [SerializeField] private bool isAgressiveUnit = false;
 
+    private Camera MainCamera;
+    private Vector3 startPosition;
     private Vector3 dir;
     private SpriteRenderer Sprite;
 
     private void Start()
     {
+        MainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
+        startPosition = transform.position;
         dir = transform.right;
         Sprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void Update()
     {
-        Move();
+
     }
 
-    private void Move()
+    void Patrol()
     {
-        Vector3 circlePosition = transform.position + transform.up * 0.1f + transform.right * dir.x * 0.7f;
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(circlePosition, 0.1f);
 
-        if (colliders.Length > 0) dir *= -1;
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, Time.deltaTime * speed);
-        Sprite.flipX = dir.x < 0f;
-        //transform.localScale = transform.right * dir.x * transform.localScale.x + transform.up * transform.localScale.y;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject == Player.Instance.gameObject)
             Player.Instance.GetDamage();
+    }
+
+    private void OnGUI()
+    {
+        //Vector3 screenPos = 
     }
 }

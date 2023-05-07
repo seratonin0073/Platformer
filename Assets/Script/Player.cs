@@ -35,18 +35,11 @@ public class Player : Entity
 
     void Update()
     {
-        
+        if (isGround) State = States.Idle;
         if(Input.GetButton("Horizontal"))
             Run();
-        else
-        {
-            if (isGround) State = States.Idle;
-        }
-            
         if (Input.GetButtonDown("Jump") && isGround)
             Jump();
-
-        
     }
 
     private void Run()
@@ -59,15 +52,14 @@ public class Player : Entity
     private void Jump()
     {
         RB.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
-        State = States.Jump;
         isGround = false;
+        State = States.Jump;
     }
 
     private void CheckGround()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.3f);
         isGround = colliders.Length > 1;
-        //isGround = Physics2D.OverlapArea(top_left.position, bottom_right.position, ground_layers);
         if (!isGround && RB.velocity.y < 0) State = States.Fall;
     }
 
