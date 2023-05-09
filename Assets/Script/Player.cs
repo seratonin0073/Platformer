@@ -10,8 +10,9 @@ public class Player : Entity
     private SpriteRenderer Sprite;
     private Rigidbody2D RB;
     private Animator AnimController;
-    private bool isGround = false;
 
+    private bool isGround = false;
+    private int attackCount = 0;
     
     public static Player Instance { get; set; }
     private States State
@@ -27,12 +28,10 @@ public class Player : Entity
         AnimController = GetComponentInChildren<Animator>();
         Instance = this;
     }
-
     private void FixedUpdate()
     {
         CheckGround();
     }
-
     void Update()
     {
         if (isGround) State = States.Idle;
@@ -41,7 +40,6 @@ public class Player : Entity
         if (Input.GetButtonDown("Jump") && isGround)
             Jump();
     }
-
     private void Run()
     {
         if (isGround) State = States.Run;
@@ -55,14 +53,12 @@ public class Player : Entity
         isGround = false;
         State = States.Jump;
     }
-
     private void CheckGround()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 0.3f);
         isGround = colliders.Length > 1;
         if (!isGround && RB.velocity.y < 0) State = States.Fall;
     }
-
     public override void GetDamage()
     {
         lives -= 1;
@@ -70,8 +66,6 @@ public class Player : Entity
         if (lives < 1)
             Die();
     }
-
-    
 
 }
 
@@ -81,5 +75,8 @@ enum States
     Idle,
     Run,
     Jump,
-    Fall
+    Fall,
+    Attack1,
+    Attack2,
+    Attack3
 }
